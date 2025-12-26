@@ -1,0 +1,214 @@
+{
+  "collections": [
+    {
+      "id": "users",
+      "name": "users",
+      "type": "auth",
+      "system": true,
+      "schema": [
+        {
+          "id": "users_name",
+          "name": "name",
+          "type": "text",
+          "required": false,
+          "unique": false,
+          "options": {
+            "min": null,
+            "max": null,
+            "pattern": ""
+          }
+        },
+        {
+          "id": "users_avatar",
+          "name": "avatar",
+          "type": "file",
+          "required": false,
+          "unique": false,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 5242880,
+            "mimeTypes": ["image/jpeg", "image/png", "image/svg+xml", "image/webp"]
+          }
+        }
+      ],
+      "listRule": "id = @request.auth.id",
+      "viewRule": "id = @request.auth.id",
+      "createRule": "",
+      "updateRule": "id = @request.auth.id",
+      "deleteRule": "id = @request.auth.id",
+      "options": {
+        "allowEmailAuth": true,
+        "allowOAuth2Auth": true,
+        "allowUsernameAuth": true,
+        "exceptEmailDomains": [],
+        "onlyEmailDomains": [],
+        "requireEmail": false
+      }
+    },
+    {
+      "id": "habits_col_001",
+      "name": "habits",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "id": "title_fld",
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "unique": false,
+          "options": {
+            "min": 1,
+            "max": 200,
+            "pattern": ""
+          }
+        },
+        {
+          "id": "icon_fld",
+          "name": "icon",
+          "type": "text",
+          "required": false,
+          "unique": false,
+          "options": {
+            "min": null,
+            "max": null,
+            "pattern": ""
+          }
+        },
+        {
+          "id": "color_fld",
+          "name": "color",
+          "type": "text",
+          "required": false,
+          "unique": false,
+          "options": {
+            "min": null,
+            "max": 7,
+            "pattern": "^#[0-9a-f]{6}$"
+          }
+        },
+        {
+          "id": "owner_rel",
+          "name": "owner",
+          "type": "relation",
+          "required": true,
+          "unique": false,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": true,
+            "minSelect": 1,
+            "maxSelect": 1
+          }
+        }
+      ],
+      "indexes": [],
+      "listRule": "owner = @request.auth.id",
+      "viewRule": "owner = @request.auth.id",
+      "createRule": "@request.auth.id != \"\" && owner = @request.auth.id",
+      "updateRule": "owner = @request.auth.id",
+      "deleteRule": "owner = @request.auth.id",
+      "options": {}
+    },
+    {
+      "id": "checkins_col_001",
+      "name": "checkins",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "id": "habit_rel",
+          "name": "habit",
+          "type": "relation",
+          "required": true,
+          "unique": false,
+          "options": {
+            "collectionId": "habits_col_001",
+            "cascadeDelete": true,
+            "minSelect": 1,
+            "maxSelect": 1
+          }
+        },
+        {
+          "id": "date_fld",
+          "name": "date",
+          "type": "date",
+          "required": true,
+          "unique": false,
+          "options": {}
+        },
+        {
+          "id": "owner_rel",
+          "name": "owner",
+          "type": "relation",
+          "required": true,
+          "unique": false,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": false,
+            "minSelect": 1,
+            "maxSelect": 1
+          }
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_habit_date_owner on checkins (habit, date, owner)"
+      ],
+      "listRule": "owner = @request.auth.id",
+      "viewRule": "owner = @request.auth.id",
+      "createRule": "@request.auth.id != \"\" && owner = @request.auth.id",
+      "updateRule": "owner = @request.auth.id",
+      "deleteRule": "owner = @request.auth.id",
+      "options": {}
+    },
+    {
+      "id": "user_settings_col_001",
+      "name": "user_settings",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "id": "owner_rel",
+          "name": "owner",
+          "type": "relation",
+          "required": true,
+          "unique": true,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": true,
+            "minSelect": 1,
+            "maxSelect": 1
+          }
+        },
+        {
+          "id": "forest_style_fld",
+          "name": "forest_style",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "options": {
+            "values": ["light forest", "dark forest", "autumn"]
+          }
+        },
+        {
+          "id": "tree_density_fld",
+          "name": "tree_density",
+          "type": "number",
+          "required": false,
+          "unique": false,
+          "options": {
+            "min": 1,
+            "max": 10,
+            "noDecimal": true
+          }
+        }
+      ],
+      "indexes": [],
+      "listRule": "owner = @request.auth.id",
+      "viewRule": "owner = @request.auth.id",
+      "createRule": "@request.auth.id != \"\" && owner = @request.auth.id",
+      "updateRule": "owner = @request.auth.id",
+      "deleteRule": "owner = @request.auth.id",
+      "options": {}
+    }
+  ]
+}

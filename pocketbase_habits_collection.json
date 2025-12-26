@@ -1,0 +1,41 @@
+{
+  "collection": {
+    "id": "e8a1b2c3-d4f5-6789-abcd-ef0123456789",
+    "name": "habits",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "fld_title_01",
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "fld_completions_01",
+        "name": "completions",
+        "type": "text",
+        "required": false,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      }
+    ],
+    "indexes": [],
+    "listRule": "record.createdBy == @request.auth.id || @request.auth.role == \"admin\"",
+    "viewRule": "record.createdBy == @request.auth.id || @request.auth.role == \"admin\"",
+    "createRule": "@request.auth.id != \"\"",
+    "updateRule": "record.createdBy == @request.auth.id || @request.auth.role == \"admin\"",
+    "deleteRule": "record.createdBy == @request.auth.id || @request.auth.role == \"admin\"",
+    "options": {}
+  }
+}
