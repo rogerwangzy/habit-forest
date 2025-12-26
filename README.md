@@ -1,61 +1,117 @@
-# 习惯森林（Forest Habbit）
+# 习惯森林 - Forest Habit 🌲
 
-一个简单的 Svelte + Tailwind 原型，用于记录习惯打卡并将打卡情况可视化为“森林”中树的生长。
+习惯森林是一个习惯追踪应用,通过森林可视化追踪你的习惯打卡。每一次打卡,你的森林就会成长!
 
-快速开始
+## ✨ 特性
+
+- 🌳 **可视化习惯森林**:每个习惯对应一棵树,连续打卡天数越多,树木越茂盛
+- 📱 **移动端优化**:完美适配手机、平板和桌面设备
+- 🎨 **自定义习惯**:选择图标和颜色,打造个性化习惯
+- 📊 **统计分析**:查看总打卡数、最长连续天数、本月打卡等数据
+- 🌙 **深色模式**:支持亮色/暗色主题切换
+- 💾 **数据同步**:使用 PocketBase 进行云端数据同步
+- 📸 **导出分享**:一键导出森林海报分享你的成就
+
+## 🌟 树木成长阶段
+
+- **阶段 1**:0-6 天连续打卡(小树苗)
+- **阶段 2**:7-14 天连续打卡(成长中)
+- **阶段 3**:15-29 天连续打卡(茂盛)
+- **阶段 4**:30+ 天连续打卡(开花结果)🌸
+
+## 🚀 一键部署到 Vercel
+
+点击下方按钮一键部署到 Vercel:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rogerwangzy/habit-forest)
+
+### 部署步骤
+
+1. 点击上方 "Deploy with Vercel" 按钮
+2. 登录或注册 Vercel 账号
+3. 授权访问 GitHub 仓库
+4. 选择仓库并点击 "Deploy"
+5. 等待构建完成(约 1-2 分钟)
+6. 访问生成的域名即可使用
+
+### 环境变量配置(可选)
+
+如果需要使用 PocketBase 后端,需要配置以下环境变量:
+
+- `VITE_POCKETBASE_URL`: PocketBase 服务器地址
+
+## 💻 本地开发
+
+### 前置要求
+
+- Node.js 16+
+- npm 或 yarn
+
+### 安装依赖
 
 ```bash
-# 在项目目录中
 npm install
-npm run dev
-
-# 打开浏览器访问 http://localhost:5173
 ```
 
-说明
-
-- `src/components/HabitForest.svelte`：包含添加习惯、打卡、本地存储（localStorage）以及 SVG 森林可视化。
-- 使用 Tailwind CSS 进行样式。
-
-下一步建议
-
-- 如果需要，我可以帮你：
-  - 增加后端同步（例如 Firebase 或本地 sqlite）
-  - 添加用户登录/跨设备同步
-  - 更丰富的森林生长动画与资源系统
-
-PocketBase 集成
-
-- 本项目包含一个基本的 PocketBase 前端集成（`src/lib/pb.js`、`src/components/Auth.svelte`）。
-- 要使用：
-  1. 下载并运行 PocketBase 服务：
+### 启动开发服务器
 
 ```bash
-# 下载并解压 pocketbase（示例）
-curl -LO https://github.com/pocketbase/pocketbase/releases/download/v0.13.0/pocketbase_0.13.0_windows_amd64.zip
-# 解压并运行
-./pocketbase serve
+npm run dev
 ```
 
-  2. 在 `src/lib/pb.js` 中修改 `pb` 的 URL（默认 `http://127.0.0.1:8090`）。
-  3. 在 PocketBase 管理界面创建一个 `habits` collection，包含字段：
-     - `title` (text)
-     - `completions` (text) — 我们把打卡数组以 JSON 字符串存储
-  4. 在应用中使用注册/登录界面后，习惯数据会自动同步到 `habits` collection（创建/更新/删除）。
+### 构建生产版本
 
-注意：当前实现假设 `habits` collection 的记录所有者是用户（PocketBase `owner` 字段），并且未实现冲突解决。可按需拓展。
+```bash
+npm run build
+```
 
-额外注意（PocketBase v0.35.0）
+### 预览生产构建
 
-- 请在 PocketBase 管理后台的 `Settings -> CORS` 中添加开发服务器地址，例如 `http://localhost:5174` 或 `http://127.0.0.1:5174`，否则浏览器会被阻止访问 API。
-- 在 `habits` collection 的权限设置中，推荐：
-  - 仅允许已认证用户创建/更新/删除自己的记录（在 "Rules" 中使用 `@request.auth.id` 或 `owner` 过滤）。
-  - `completions` 字段可以设置为 `text`，前端以 JSON 字符串方式存储数组。
-- 如果你想导入 collection schema，PocketBase 管理界面支持从 JSON 导入 collection 配置（Settings -> Collections -> Import）。
+```bash
+npm run preview
+```
 
-示例：在 PocketBase 管理界面为 `habits` 设置的字段示例
+## 🛠️ 技术栈
 
-- `title` — type: `text`, required: true
-- `completions` — type: `text`, required: false
+- **前端框架**:Svelte
+- **构建工具**:Vite
+- **样式**:Tailwind CSS
+- **后端服务**:PocketBase
+- **截图导出**:html2canvas
 
-如果需要，我可以为你生成一个可导入的 collection JSON 配置或 curl 请求来创建字段和权限规则。告诉我你想要的权限策略（例如：每个用户只能查看自己的习惯），我会生成相应的导入文件或命令。
+## 📱 移动端优化
+
+应用已针对移动端进行了全面优化:
+
+- ✅ 响应式设计,自适应不同屏幕尺寸
+- ✅ 触摸友好的操作界面
+- ✅ 移动端侧边栏模态层设计
+- ✅ 优化的字体大小和间距
+- ✅ 流畅的动画效果
+- ✅ PWA 支持(渐进式 Web 应用)
+
+## 📝 使用说明
+
+1. **注册/登录**:首次使用需要注册账号
+2. **添加习惯**:点击侧边栏添加新习惯,选择图标和颜色
+3. **每日打卡**:在"今日打卡"区域点击习惯进行打卡
+4. **查看森林**:在森林可视化区域查看你的习惯成长情况
+5. **导出海报**:点击"导出海报"按钮保存你的习惯森林
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request!
+
+## 📄 许可证
+
+MIT License
+
+## 🔗 相关链接
+
+- [Vercel 部署文档](https://vercel.com/docs)
+- [Svelte 文档](https://svelte.dev/)
+- [PocketBase 文档](https://pocketbase.io/docs/)
+
+---
+
+Made with ❤️ by rogerwangzy
